@@ -1,6 +1,8 @@
 var NounProject = require('the-noun-project');
+var formData = require('form-data-to-object');
 module.exports = function(context, req) {
   context.log('JavaScript HTTP trigger function processed a request.');
+  context.log(formData.toObj(req.body));
   nounProject = new NounProject({
     key: process.env.NounApiKey,
     secret: process.env.NounApiSecret
