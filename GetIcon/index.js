@@ -11,11 +11,6 @@ module.exports = function(context, req) {
         parse: 'full',
         response_type: 'in_channel',
         text: data.icons[0].preview_url,
-        attachments: [
-          {
-            image_url: data.icons[0].preview_url
-          }
-        ],
         unfurl_media: true,
         unfurl_links: true
       };
