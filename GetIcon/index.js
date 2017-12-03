@@ -10,7 +10,7 @@ module.exports = function(context, req) {
       context.log(data.icons);
       context.res = {
         // status: 200, /* Defaults to 200 */
-        body: 'Hello'
+        body: data.icons[0].preview_url
       };
     }
     context.done();
