@@ -7,10 +7,22 @@ module.exports = function(context, req) {
   });
   nounProject.getIconsByTerm('goat', { limit: 5 }, (err, data) => {
     if (!err) {
+      data = {
+        parse: 'full',
+        response_type: 'in_channel',
+        text: data.icons[0].preview_url,
+        attachments: [
+          {
+            image_url: data.icons[0].preview_url
+          }
+        ],
+        unfurl_media: true,
+        unfurl_links: true
+      };
       context.log(data.icons);
       context.res = {
         // status: 200, /* Defaults to 200 */
-        body: data.icons[0].preview_url
+        body: data
       };
     }
     context.done();
