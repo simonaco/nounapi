@@ -8,23 +8,30 @@ module.exports = function(context, req) {
     secret: process.env.NounApiSecret
   });
   nounProject.getIconsByTerm(body.text, { limit: 5 }, (err, data) => {
+    const slack_res = {};
+    const attachments = [];
+    for (icon of data.icons) {
+      attachments.push({ image_url: icon.preview_url, text: icon.preview_url });
+    }
     if (!err) {
-      data = {
+      slack_res = {
         parse: 'full',
         response_type: 'in_channel',
-        text: data.icons[0].preview_url,
-        attachments: [
-          {
-            image_url: data.icons[0].preview_url
-          }
-        ]
+        attachments: attachments
       };
       context.log(data.icons);
-      context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: data
+    } else {
+      context.log(`Error: ${err}`);
+      slack_res = {
+        response_type: 'ephemeral',
+        text: "Sorry, that didn't work. Please try again."
       };
     }
+
+    context.res = {
+      // status: 200, /* Defaults to 200 */
+      body: slack_res
+    };
     context.done();
   });
 };
