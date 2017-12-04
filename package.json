@@ -1,7 +1,8 @@
 {
   "name": "nounapi",
   "version": "1.0.0",
-  "description": "Function that will call the noun project api to get icons based on terms",
+  "description":
+    "Function that will call the noun project api to get icons based on terms",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

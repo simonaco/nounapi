@@ -1,11 +1,13 @@
 var NounProject = require('the-noun-project');
+var qs = require('querystring');
 module.exports = function(context, req) {
   context.log('JavaScript HTTP trigger function processed a request.');
+  const body = qs.parse(req.body);
   nounProject = new NounProject({
     key: process.env.NounApiKey,
     secret: process.env.NounApiSecret
   });
-  nounProject.getIconsByTerm('goat', { limit: 5 }, (err, data) => {
+  nounProject.getIconsByTerm(body.text, { limit: 5 }, (err, data) => {
     if (!err) {
       data = {
         parse: 'full',
