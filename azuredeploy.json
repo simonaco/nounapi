@@ -146,7 +146,7 @@
         },
         {
           "type": "sourcecontrols",
-          "apiVersion": "2016-08-01",
+          "apiVersion": "2015-08-01",
           "name": "web",
           "properties": {
             "RepoUrl": "[parameters('sourceCodeRepositoryURL')]",
