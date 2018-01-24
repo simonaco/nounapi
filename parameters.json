@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_nounapi_name": {
+            "value": null
+        },
+        "components_nounapi_name": {
+            "value": null
+        },
+        "config_web_name": {
+            "value": null
+        },
+        "serverfarms_WestEuropePlan_name": {
+            "value": null
+        },
+        "storageAccounts_nounapi9185_name": {
+            "value": null
+        },
+        "alertrules_Failure_Anomalies___nounapi_name": {
+            "value": null
+        },
+        "hostNameBindings_nounapi.azurewebsites.net_name": {
+            "value": null
+        },
+        "deployments_6dfb588af77c41ee9dfa08c089d4cf5e_name": {
+            "value": null
+        },
+        "deployments_8e127a5964b6acf0325b01d4167501edd8b9eac8_name": {
+            "value": null
+        },
+        "deployments_0a5e2faf0fa0444479264269b91dd4692c676d07_name": {
+            "value": null
+        },
+        "deployments_3cc3ab0ec7cd5f1eed7086e1e5d4f29ef51c538b_name": {
+            "value": null
+        },
+        "deployments_6ef8b53679f0e2ba54f7d7cd8450496593210b4c_name": {
+            "value": null
+        },
+        "deployments_bcf8fbeab9d4734c9cc229e8c692fc52e25e5039_name": {
+            "value": null
+        },
+        "deployments_53d2efef5b5d8f05b715f24ce6da09b4a8e73539_name": {
+            "value": null
+        },
+        "deployments_75ef274d2bd3c6960e42d3bb8c783a2dc4289b4d_name": {
+            "value": null
+        },
+        "deployments_86830e1222216cda196e63bd2115ec6fd6bbbe62_name": {
+            "value": null
+        },
+        "deployments_a0803a07dc99ec82e5333456262a5b98bb6f9adf_name": {
+            "value": null
+        }
+    }
+}
