@@ -3,178 +3,92 @@
     "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "sites_nounapi_name": {
-      "defaultValue": "nounapi",
-      "type": "String"
+    "siteName": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the function app that you wish to create."
+      }
     },
-    "components_nounapi_name": {
-      "defaultValue": "nounapi",
-      "type": "String"
+    "NounApiKey": {
+      "type": "string",
+      "metadata": {
+        "description":
+          "A Noun API key is required to make requests. If you don't have one go create it at http://api.thenounproject.com/getting_started.html#creating-an-api-key"
+      }
     },
-    "config_web_name": {
-      "defaultValue": "web",
-      "type": "String"
+    "NounApiSecret": {
+      "type": "string",
+      "metadata": {
+        "description":
+          "A Noun API secret is required to make requests. If you don't have one go create it at http://api.thenounproject.com/getting_started.html#creating-an-api-key"
+      }
     },
-    "serverfarms_WestEuropePlan_name": {
-      "defaultValue": "WestEuropePlan",
-      "type": "String"
+    "storageAccountType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Standard_L"
+      ],
+      "metadata": {
+        "description": "Storage Account type"
+      }
     },
-    "storageAccounts_nounapi9185_name": {
-      "defaultValue": "nounapi9185",
-      "type": "String"
+    "sourceCodeRepositoryURL": {
+      "type": "string",
+      "defaultValue": "https://github.com/simonaco/nounapi",
+      "metadata": {
+        "description": "Source code repository URL"
+      }
     },
-    "alertrules_Failure_Anomalies___nounapi_name": {
-      "defaultValue": "Failure Anomalies - nounapi",
-      "type": "String"
-    },
-    "hostNameBindings_nounapi.azurewebsites.net_name": {
-      "defaultValue": "nounapi.azurewebsites.net",
-      "type": "String"
-    },
-    "deployments_6dfb588af77c41ee9dfa08c089d4cf5e_name": {
-      "defaultValue": "6dfb588af77c41ee9dfa08c089d4cf5e",
-      "type": "String"
-    },
-    "deployments_8e127a5964b6acf0325b01d4167501edd8b9eac8_name": {
-      "defaultValue": "8e127a5964b6acf0325b01d4167501edd8b9eac8",
-      "type": "String"
-    },
-    "deployments_0a5e2faf0fa0444479264269b91dd4692c676d07_name": {
-      "defaultValue": "0a5e2faf0fa0444479264269b91dd4692c676d07",
-      "type": "String"
-    },
-    "deployments_3cc3ab0ec7cd5f1eed7086e1e5d4f29ef51c538b_name": {
-      "defaultValue": "3cc3ab0ec7cd5f1eed7086e1e5d4f29ef51c538b",
-      "type": "String"
-    },
-    "deployments_6ef8b53679f0e2ba54f7d7cd8450496593210b4c_name": {
-      "defaultValue": "6ef8b53679f0e2ba54f7d7cd8450496593210b4c",
-      "type": "String"
-    },
-    "deployments_bcf8fbeab9d4734c9cc229e8c692fc52e25e5039_name": {
-      "defaultValue": "bcf8fbeab9d4734c9cc229e8c692fc52e25e5039",
-      "type": "String"
-    },
-    "deployments_53d2efef5b5d8f05b715f24ce6da09b4a8e73539_name": {
-      "defaultValue": "53d2efef5b5d8f05b715f24ce6da09b4a8e73539",
-      "type": "String"
-    },
-    "deployments_75ef274d2bd3c6960e42d3bb8c783a2dc4289b4d_name": {
-      "defaultValue": "75ef274d2bd3c6960e42d3bb8c783a2dc4289b4d",
-      "type": "String"
-    },
-    "deployments_86830e1222216cda196e63bd2115ec6fd6bbbe62_name": {
-      "defaultValue": "86830e1222216cda196e63bd2115ec6fd6bbbe62",
-      "type": "String"
-    },
-    "deployments_a0803a07dc99ec82e5333456262a5b98bb6f9adf_name": {
-      "defaultValue": "a0803a07dc99ec82e5333456262a5b98bb6f9adf",
-      "type": "String"
+    "sourceCodeBranch": {
+      "type": "string",
+      "defaultValue": "master",
+      "metadata": {
+        "description": "Sourcecode Repo branch"
+      }
     }
   },
-  "variables": {},
+  "variables": {
+    "shortenerUrl": "[concat(parameters('siteName'), '.azurewebsites.net/')]",
+    "hostingPlanName": "[concat(parameters('siteName'), '-plan')]",
+    "storageAccountName":
+      "[concat('azfnstore',uniquestring(resourceGroup().id))]",
+    "storageAccountid":
+      "[concat(resourceGroup().id,'/providers/','Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+  },
   "resources": [
     {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/microsoft.insights/alertrules/Failure Anomalies - nounapi'.",
-      "type": "microsoft.insights/alertrules",
-      "name": "[parameters('alertrules_Failure_Anomalies___nounapi_name')]",
-      "apiVersion": "2014-04-01",
-      "location": "West Europe",
-      "tags": {
-        "hidden-link:/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/microsoft.insights/components/nounapi":
-          "Resource"
-      },
-      "scale": null,
-      "properties": {
-        "name": "[parameters('alertrules_Failure_Anomalies___nounapi_name')]",
-        "description": "",
-        "isEnabled": true,
-        "condition": {
-          "odata.type":
-            "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
-          "dataSource": {
-            "odata.type":
-              "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
-            "resourceUri":
-              "[resourceId('microsoft.insights/components', parameters('components_nounapi_name'))]",
-            "metricNamespace": null,
-            "metricName":
-              "advanced::A3108E3D-5E26-44CF-B232-783F5E20EF10::ewAiAEgAeQBwAGUAcgBpAG8AbgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AUwBpAGQAIgA6AG4AdQBsAGwALAAiAEgAeQBwAGUAcgBpAG8AbgBTAHUAYgBqAGUAYwB0AFMAaQBkACIAOgBuAHUAbABsACwAIgBIAHkAcABlAHIAaQBvAG4ATwBiAHMAZQByAHYAZQByAFMAaQBkACIAOgBuAHUAbABsACwAIgBDAHUAcwB0AG8AbQBlAHIAQQBjAGMAbwB1AG4AdABJAGQAIgA6ACIAMAAwADAAMAAwADAAMAAwAC0AMAAwADAAMAAtADAAMAAwADAALQAwADAAMAAwAC0AMAAwADAAMAAwADAAMAAwADAAMAAwADAAIgAsACIAQQBwAHAAbABpAGMAYQB0AGkAbwBuAE4AYQBtAGUAIgA6AG4AdQBsAGwALAAiAEEAcABwAGwAaQBjAGEAdABpAG8AbgBJAGQAIgA6AG4AdQBsAGwALAAiAFAAcgBvAGYAaQBsAGUASQBkACIAOgAwACwAIgBXAGkAbgBkAG8AdwBTAGkAegBlAEkAbgBNAGkAbgB1AHQAZQBzACIAOgA2ADAALAAiAE0AZQB0AHIAaQBjAE4AYQBtAGUAIgA6ACIAIgAsACIAVABoAHIAZQBzAGgAbwBsAGQAIgA6ADIALgAwACwAIgBBAGwAZQByAHQAVABlAG0AcABsAGEAdABlAEkAZAAiADoAIgAiACwAIgBSAHUAbABlAEkAZAAiADoAIgAiACwAIgBSAHUAbABlAE4AYQBtAGUAIgA6ACIAIgAsACIAUgB1AGwAZQBEAGUAcwBjAHIAaQBwAHQAaQBvAG4AIgA6ACIAIgAsACIAUgBlAHMAbwB1AHIAYwBlAEkAZAAiADoAbgB1AGwAbAAsACIAUwB1AGIAcwBjAHIAaQBwAHQAaQBvAG4ASQBkACIAOgBuAHUAbABsACwAIgBBAGcAZwByAGUAZwBhAHQAZQBGAHUAbgBjAHQAaQBvAG4AIgA6ACIAIgAsACIAQwBvAG0AcABhAHIAaQBzAG8AbgBPAHAAZQByAGEAdABvAHIAIgA6ACIAewBcACIAQgBhAHMAZQBsAGkAbgBlAFQAaQBtAGUAcwBwAGEAbgBcACIAOgBcACIAMAAwADoANAAwADoAMAAwAFwAIgAsAFwAIgBJAG4AcwBpAGcAaAB0AHMAUwBlAHIAdgBpAGMAZQBMAGEAZwBcACIAOgBcACIAMAAwADoAMAAwADoAMAAwAFwAIgAsAFwAIgBCAHUAZgBmAGUAcgBUAGkAbQBlAFwAIgA6AFwAIgAwADAAOgAwADEAOgAwADAAXAAiACwAXAAiAEIAbABvAGIAUwB0AG8AcgBhAGcAZQBMAG8AZwBnAGkAbgBnAEUAbgBhAGIAbABlAGQAXAAiADoAZgBhAGwAcwBlACwAXAAiAFUAcwBlAHIAUwB1AHAAcAByAGUAcwBzAGkAbwBuAHMAXAAiADoAbgB1AGwAbAAsAFwAIgBQAHIAbwBmAGkAbABlAEkAZABcACIAOgAwACwAXAAiAEUAbQBhAGkAbABUAHkAcABlAFwAIgA6ADAALABcACIAUgBkAGQARgBhAGkAbAB1AHIAZQBzAFMAcABpAGsAZQBUAGgAcgBlAHMAaABvAGwAZABcACIAOgAzAC4AMAAsAFwAIgBSAGEAdwBQAHIAbwBhAGMAdABpAHYAZQBSAHUAbABlAEMAbwBuAGYAaQBnAFwAIgA6AG4AdQBsAGwAfQAiACwAIgBFAG4AYQBiAGwAZQBTAGUAbgBkAEUAbQBhAGkAbABUAG8AQwB1AHMAdABvAG0AIgA6AGYAYQBsAHMAZQAsACIAQwB1AHMAdABvAG0ARQBtAGEAaQBsAHMARQBuAGMAbwBkAGUAZAAiADoAIgAiACwAIgBFAG4AYQBiAGwAZQBTAGUAbgBkAEUAbQBhAGkAbABUAG8ATwB3AG4AZQByAHMAIgA6AGYAYQBsAHMAZQB9AA=="
-          },
-          "operator": "GreaterThan",
-          "threshold": 2,
-          "windowSize": "PT1H"
-        },
-        "action": {
-          "odata.type":
-            "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
-          "sendToServiceOwners": true,
-          "customEmails": []
-        }
-      },
-      "dependsOn": [
-        "[resourceId('microsoft.insights/components', parameters('components_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/microsoft.insights/components/nounapi'.",
       "type": "microsoft.insights/components",
-      "kind": "web",
-      "name": "[parameters('components_nounapi_name')]",
-      "apiVersion": "2014-04-01",
-      "location": "westeurope",
+      "apiVersion": "2015-05-01",
+      "name": "[parameters('siteName')]",
+      "location": "South Central US",
       "tags": {
-        "hidden-link:/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/Microsoft.Web/sites/nounapi":
+        "[concat('hidden-link:', resourceGroup().id, '/providers/Microsoft.Web/sites/', parameters('siteName'))]":
           "Resource"
       },
-      "scale": null,
       "properties": {
-        "ApplicationId": "[parameters('components_nounapi_name')]"
-      },
-      "dependsOn": []
+        "ApplicationId": "[parameters('siteName')]",
+        "Request_Source": "IbizaWebAppExtensionCreate"
+      }
     },
     {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/Microsoft.Storage/storageAccounts/nounapi9185'.",
       "type": "Microsoft.Storage/storageAccounts",
-      "sku": {
-        "name": "Standard_LRS",
-        "tier": "Standard"
-      },
+      "name": "[variables('storageAccountName')]",
+      "apiVersion": "2016-01-01",
+      "location": "[resourceGroup().location]",
       "kind": "Storage",
-      "name": "[parameters('storageAccounts_nounapi9185_name')]",
-      "apiVersion": "2017-06-01",
-      "location": "westeurope",
-      "tags": {},
-      "scale": null,
-      "properties": {
-        "networkAcls": {
-          "bypass": "AzureServices",
-          "virtualNetworkRules": [],
-          "ipRules": [],
-          "defaultAction": "Allow"
-        },
-        "supportsHttpsTrafficOnly": false,
-        "encryption": {
-          "services": {
-            "file": {
-              "enabled": true
-            },
-            "blob": {
-              "enabled": true
-            }
-          },
-          "keySource": "Microsoft.Storage"
-        }
-      },
-      "dependsOn": []
+      "sku": {
+        "name": "[parameters('storageAccountType')]"
+      }
     },
     {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/Microsoft.Web/serverfarms/WestEuropePlan'.",
       "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2016-09-01",
+      "name": "[variables('hostingPlanName')]",
+      "location": "[resourceGroup().location]",
       "sku": {
         "name": "Y1",
         "tier": "Dynamic",
@@ -182,453 +96,69 @@
         "family": "Y",
         "capacity": 0
       },
-      "kind": "functionapp",
-      "name": "[parameters('serverfarms_WestEuropePlan_name')]",
-      "apiVersion": "2016-09-01",
-      "location": "West Europe",
-      "scale": null,
       "properties": {
-        "name": "[parameters('serverfarms_WestEuropePlan_name')]",
-        "workerTierName": null,
-        "adminSiteName": null,
-        "hostingEnvironmentProfile": null,
-        "perSiteScaling": false,
-        "reserved": false,
-        "targetWorkerCount": 0,
-        "targetWorkerSizeId": 0
-      },
-      "dependsOn": []
+        "name": "[variables('hostingPlanName')]",
+        "computeMode": "Dynamic"
+      }
     },
     {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/Microsoft.Web/sites/nounapi'.",
       "type": "Microsoft.Web/sites",
-      "kind": "functionapp",
-      "name": "[parameters('sites_nounapi_name')]",
       "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
+      "name": "[parameters('siteName')]",
+      "location": "[resourceGroup().location]",
+      "kind": "functionapp",
       "properties": {
-        "enabled": true,
-        "hostNameSslStates": [
-          {
-            "name":
-              "[concat(parameters('sites_nounapi_name'),'.azurewebsites.net')]",
-            "sslState": "Disabled",
-            "virtualIP": null,
-            "thumbprint": null,
-            "toUpdate": null,
-            "hostType": "Standard"
-          },
-          {
-            "name":
-              "[concat(parameters('sites_nounapi_name'),'.scm.azurewebsites.net')]",
-            "sslState": "Disabled",
-            "virtualIP": null,
-            "thumbprint": null,
-            "toUpdate": null,
-            "hostType": "Repository"
-          }
-        ],
+        "name": "[parameters('siteName')]",
         "serverFarmId":
-          "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_WestEuropePlan_name'))]",
-        "reserved": false,
-        "siteConfig": null,
-        "scmSiteAlsoStopped": false,
-        "hostingEnvironmentProfile": null,
-        "clientAffinityEnabled": false,
-        "clientCertEnabled": false,
-        "hostNamesDisabled": false,
-        "containerSize": 1536,
-        "dailyMemoryTimeQuota": 0,
-        "cloningInfo": null
+          "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "clientAffinityEnabled": false
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_WestEuropePlan_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/Microsoft.Web/sites/nounapi/config/web'.",
-      "type": "Microsoft.Web/sites/config",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('config_web_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "numberOfWorkers": 1,
-        "defaultDocuments": [
-          "Default.htm",
-          "Default.html",
-          "Default.asp",
-          "index.htm",
-          "index.html",
-          "iisstart.htm",
-          "default.aspx",
-          "index.php"
-        ],
-        "netFrameworkVersion": "v4.0",
-        "phpVersion": "5.6",
-        "pythonVersion": "",
-        "nodeVersion": "",
-        "linuxFxVersion": "",
-        "requestTracingEnabled": false,
-        "remoteDebuggingEnabled": false,
-        "remoteDebuggingVersion": null,
-        "httpLoggingEnabled": false,
-        "logsDirectorySizeLimit": 35,
-        "detailedErrorLoggingEnabled": false,
-        "publishingUsername": "$nounapi",
-        "publishingPassword": null,
-        "appSettings": null,
-        "metadata": null,
-        "connectionStrings": null,
-        "machineKey": null,
-        "handlerMappings": null,
-        "documentRoot": null,
-        "scmType": "GitHub",
-        "use32BitWorkerProcess": true,
-        "webSocketsEnabled": false,
-        "alwaysOn": false,
-        "javaVersion": null,
-        "javaContainer": null,
-        "javaContainerVersion": null,
-        "appCommandLine": "",
-        "managedPipelineMode": "Integrated",
-        "virtualApplications": [
-          {
-            "virtualPath": "/",
-            "physicalPath": "site\\wwwroot",
-            "preloadEnabled": false,
-            "virtualDirectories": null
-          }
-        ],
-        "winAuthAdminState": 0,
-        "winAuthTenantState": 0,
-        "customAppPoolIdentityAdminState": false,
-        "customAppPoolIdentityTenantState": false,
-        "runtimeADUser": null,
-        "runtimeADUserPassword": null,
-        "loadBalancing": "LeastRequests",
-        "routingRules": [],
-        "experiments": {
-          "rampUpRules": []
-        },
-        "limits": null,
-        "autoHealEnabled": false,
-        "autoHealRules": null,
-        "tracingOptions": null,
-        "vnetName": "",
-        "siteAuthEnabled": false,
-        "siteAuthSettings": {
-          "enabled": null,
-          "unauthenticatedClientAction": null,
-          "tokenStoreEnabled": null,
-          "allowedExternalRedirectUrls": null,
-          "defaultProvider": null,
-          "clientId": null,
-          "clientSecret": null,
-          "issuer": null,
-          "allowedAudiences": null,
-          "additionalLoginParams": null,
-          "isAadAutoProvisioned": false,
-          "googleClientId": null,
-          "googleClientSecret": null,
-          "googleOAuthScopes": null,
-          "facebookAppId": null,
-          "facebookAppSecret": null,
-          "facebookOAuthScopes": null,
-          "twitterConsumerKey": null,
-          "twitterConsumerSecret": null,
-          "microsoftAccountClientId": null,
-          "microsoftAccountClientSecret": null,
-          "microsoftAccountOAuthScopes": null
-        },
-        "cors": {
-          "allowedOrigins": [
-            "https://functions.azure.com",
-            "https://functions-staging.azure.com",
-            "https://functions-next.azure.com"
+        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+        "[resourceId('microsoft.insights/components/', parameters('siteName'))]"
+      ],
+      "resources": [
+        {
+          "type": "config",
+          "name": "appsettings",
+          "apiVersion": "2015-08-01",
+          "properties": {
+            "Project": "functionApp",
+            "AzureWebJobsDashboard":
+              "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+            "AzureWebJobsStorage":
+              "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING":
+              "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(variables('storageAccountid'),'2015-05-01-preview').key1)]",
+            "WEBSITE_CONTENTSHARE": "[toLower(parameters('siteName'))]",
+            "APPINSIGHTS_INSTRUMENTATIONKEY":
+              "[reference(resourceId('microsoft.insights/components/', parameters('siteName')), '2015-05-01').InstrumentationKey]",
+            "SHORTENER_URL": "[toLower(variables('shortenerUrl'))]",
+            "UTM_SOURCE": "[toLower(parameters('utmSource'))]",
+            "FALLBACK_URL": "[toLower(parameters('fallbackUrl'))]",
+            "FUNCTIONS_EXTENSION_VERSION": "~1",
+            "WEBSITE_NODE_DEFAULT_VERSION": "6.5.0",
+            "ROUTING_EXTENSION_VERSION": "~0.2"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('siteName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
           ]
         },
-        "push": null,
-        "apiDefinition": null,
-        "autoSwapSlotName": null,
-        "localMySqlEnabled": false,
-        "managedServiceIdentityId": null,
-        "ipSecurityRestrictions": null
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/8e127a5964b6acf0325b01d4167501edd8b9eac8'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_8e127a5964b6acf0325b01d4167501edd8b9eac8_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_8e127a5964b6acf0325b01d4167501edd8b9eac8_name')]",
-        "status": 4,
-        "author_email": "simona.cotin@gmail.com",
-        "author": "Simona Cotin",
-        "deployer": "GitHub",
-        "message": "add keep-alive\n",
-        "start_time": "2018-01-19T11:42:37.5199642Z",
-        "end_time": "2018-01-19T11:43:08.1541677Z",
-        "active": true
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/0a5e2faf0fa0444479264269b91dd4692c676d07'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_0a5e2faf0fa0444479264269b91dd4692c676d07_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_0a5e2faf0fa0444479264269b91dd4692c676d07_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "Milit to five entries\n",
-        "start_time": "2017-12-04T13:23:27.2709132Z",
-        "end_time": "2017-12-04T13:24:01.0003681Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/3cc3ab0ec7cd5f1eed7086e1e5d4f29ef51c538b'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_3cc3ab0ec7cd5f1eed7086e1e5d4f29ef51c538b_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_3cc3ab0ec7cd5f1eed7086e1e5d4f29ef51c538b_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "Parse body correctly\n",
-        "start_time": "2017-12-04T11:43:55.5559889Z",
-        "end_time": "2017-12-04T11:46:45.1944907Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/6dfb588af77c41ee9dfa08c089d4cf5e'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_6dfb588af77c41ee9dfa08c089d4cf5e_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_6dfb588af77c41ee9dfa08c089d4cf5e_name')]",
-        "status": 4,
-        "author_email": "N/A",
-        "author": "N/A",
-        "deployer": "Zip-Push",
-        "message": "Created via zip push deployment",
-        "start_time": "2017-12-03T23:26:56.9452978Z",
-        "end_time": "2017-12-03T23:28:14.5280622Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/6ef8b53679f0e2ba54f7d7cd8450496593210b4c'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_6ef8b53679f0e2ba54f7d7cd8450496593210b4c_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_6ef8b53679f0e2ba54f7d7cd8450496593210b4c_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "remov form object\n",
-        "start_time": "2017-12-03T15:28:19.1616049Z",
-        "end_time": "2017-12-03T15:28:44.7298552Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/bcf8fbeab9d4734c9cc229e8c692fc52e25e5039'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_bcf8fbeab9d4734c9cc229e8c692fc52e25e5039_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_bcf8fbeab9d4734c9cc229e8c692fc52e25e5039_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "add form data to object\n",
-        "start_time": "2017-12-03T15:16:10.5398455Z",
-        "end_time": "2017-12-03T15:16:41.1930587Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/53d2efef5b5d8f05b715f24ce6da09b4a8e73539'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_53d2efef5b5d8f05b715f24ce6da09b4a8e73539_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_53d2efef5b5d8f05b715f24ce6da09b4a8e73539_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "Add noun project\n",
-        "start_time": "2017-12-03T14:38:07.8022992Z",
-        "end_time": "2017-12-03T14:38:30.4460374Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/75ef274d2bd3c6960e42d3bb8c783a2dc4289b4d'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_75ef274d2bd3c6960e42d3bb8c783a2dc4289b4d_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_75ef274d2bd3c6960e42d3bb8c783a2dc4289b4d_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "Add noun project\n",
-        "start_time": "2017-12-03T14:35:14.6442007Z",
-        "end_time": "2017-12-03T14:35:36.9968185Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/86830e1222216cda196e63bd2115ec6fd6bbbe62'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_86830e1222216cda196e63bd2115ec6fd6bbbe62_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_86830e1222216cda196e63bd2115ec6fd6bbbe62_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "Add noun project\n",
-        "start_time": "2017-12-03T14:33:55.9331236Z",
-        "end_time": "2017-12-03T14:34:19.2684843Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourcegroups/nounapi/providers/Microsoft.Web/sites/nounapi/deployments/a0803a07dc99ec82e5333456262a5b98bb6f9adf'.",
-      "type": "Microsoft.Web/sites/deployments",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('deployments_a0803a07dc99ec82e5333456262a5b98bb6f9adf_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "id":
-          "[parameters('deployments_a0803a07dc99ec82e5333456262a5b98bb6f9adf_name')]",
-        "status": 4,
-        "author_email": "simona_cotin@yahoo.com",
-        "author": "simonaco-circle",
-        "deployer": "GitHub",
-        "message": "Add noun project\n",
-        "start_time": "2017-12-03T14:30:09.2213327Z",
-        "end_time": "2017-12-03T14:30:32.5360096Z",
-        "active": false
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
-      ]
-    },
-    {
-      "comments":
-        "Generalized from resource: '/subscriptions/3b39d901-dea9-4a3c-b6de-8e16105de4b0/resourceGroups/nounapi/providers/Microsoft.Web/sites/nounapi/hostNameBindings/nounapi.azurewebsites.net'.",
-      "type": "Microsoft.Web/sites/hostNameBindings",
-      "name":
-        "[concat(parameters('sites_nounapi_name'), '/', parameters('hostNameBindings_nounapi.azurewebsites.net_name'))]",
-      "apiVersion": "2016-08-01",
-      "location": "West Europe",
-      "scale": null,
-      "properties": {
-        "siteName": "nounapi",
-        "domainId": null,
-        "hostNameType": "Verified"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('sites_nounapi_name'))]"
+        {
+          "type": "sourcecontrols",
+          "apiVersion": "2015-08-01",
+          "name": "web",
+          "properties": {
+            "RepoUrl": "[parameters('sourceCodeRepositoryURL')]",
+            "branch": "[parameters('sourceCodeBranch')]",
+            "IsManualIntegration": "true"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites/', parameters('siteName'))]",
+            "[resourceId('Microsoft.Web/Sites/config', parameters('siteName'), 'appsettings')]"
+          ]
+        }
       ]
     }
   ]
