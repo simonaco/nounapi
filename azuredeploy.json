@@ -133,9 +133,8 @@
             "WEBSITE_CONTENTSHARE": "[toLower(parameters('siteName'))]",
             "APPINSIGHTS_INSTRUMENTATIONKEY":
               "[reference(resourceId('microsoft.insights/components/', parameters('siteName')), '2015-05-01').InstrumentationKey]",
-            "SHORTENER_URL": "[toLower(variables('shortenerUrl'))]",
-            "UTM_SOURCE": "[toLower(parameters('utmSource'))]",
-            "FALLBACK_URL": "[toLower(parameters('fallbackUrl'))]",
+            "NounApiKey": "[toLower(parameters('NounApiKey'))]",
+            "NounApiSecret": "[toLower(parameters('NounApiSecret'))]",
             "FUNCTIONS_EXTENSION_VERSION": "~1",
             "WEBSITE_NODE_DEFAULT_VERSION": "6.5.0",
             "ROUTING_EXTENSION_VERSION": "~0.2"
@@ -147,7 +146,7 @@
         },
         {
           "type": "sourcecontrols",
-          "apiVersion": "2015-08-01",
+          "apiVersion": "2016-08-01",
           "name": "web",
           "properties": {
             "RepoUrl": "[parameters('sourceCodeRepositoryURL')]",
